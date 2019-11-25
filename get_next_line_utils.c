@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/24 23:50:15 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/25 10:03:02 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ char	*ft_strjoin(char *s1, char *s2, char *rest)
 	while (s2[count] && s2[count] != '\n')
 		res[len++] = s2[count++];
 	res[len] = 0;
-	if (len % BUFFER_SIZE != 0 || s2[0] == '\n')
-		ft_fill_rest(s2, rest);
+	ft_fill_rest(s2, rest);
 	return (res);
 }
 
