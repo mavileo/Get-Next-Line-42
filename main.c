@@ -18,7 +18,11 @@ int main()
 {
 	int fd = open("testfile.txt", O_RDONLY);
 	char *line;
+	int count = 0;
 	while (get_next_line(fd, &line) > 0)
+	{
+		count++;
 		printf("%s\n", line);
+	}
 	printf("%s\n", line);
 }

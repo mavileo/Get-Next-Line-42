@@ -6,12 +6,12 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/25 10:03:02 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/26 17:02:37 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
- 
+
 int		ft_strlen(const char *s)
 {
 	int count;
@@ -29,7 +29,9 @@ void	ft_fill_rest(char *buff, char *rest)
 
 	count = 0;
 	c_rest = 0;
-	while (buff[count] && buff[count - 1] != '\n')
+	while (buff[count] && buff[count] != '\n')
+		count++;
+	if (buff[count] == '\n')
 		count++;
 	while (buff[count])
 		rest[c_rest++] = buff[count++];
@@ -55,11 +57,11 @@ char	*ft_strjoin(char *s1, char *s2, char *rest)
 	int		count;
 
 	if (!s1 && !s2)
-		return (ft_strdup(""));
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
+		return (ft_strdup("", rest));
+	if (!s1 || !*s1)
+		return (ft_strdup(s2, rest));
+	if (!s2 || !*s2)
+		return (ft_strdup(s1, rest));
 	count = 0;
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	if (!(res = malloc(sizeof(char) * len)))
@@ -75,7 +77,7 @@ char	*ft_strjoin(char *s1, char *s2, char *rest)
 	return (res);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(char *s, char *rest)
 {
 	char	*res;
 	int		count;
@@ -83,11 +85,12 @@ char	*ft_strdup(const char *s)
 	count = 0;
 	if (!(res = malloc(sizeof(*s) * (ft_strlen(s) + 1))))
 		return (NULL);
-	while (s[count])
+	while (s[count] && s[count] != '\n')
 	{
 		res[count] = s[count];
 		count++;
 	}
 	res[count] = 0;
+	ft_fill_rest(s, rest);
 	return (res);
 }
