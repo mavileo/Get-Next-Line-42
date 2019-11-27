@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/27 03:50:46 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/27 04:38:19 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ int		get_next_line(int fd, char **line)
 		if (ft_rest(rest, *line))
 			return (1);
 	}
+	else	
+		if (*line)
+			ft_bzero(*line, ft_strlen(*line));
 	if (!rest && !(rest = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	return (ft_loop(fd, line, rest));

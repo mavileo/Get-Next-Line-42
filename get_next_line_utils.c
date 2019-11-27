@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/27 03:19:25 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/27 04:39:40 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strjoin(char *s1, char *s2, char *rest)
 	{
 		while (s1[count])
 			res[len++] = s1[count++];
-		if (*s1)
+		if (count)
 			free(s1);
 	}
 	count = 0;
@@ -85,7 +85,7 @@ void	ft_bzero(void *s, size_t n)
 	unsigned char	*res;
 	size_t			count;
 
-	if (!s)
+	if (!s || n < 1)
 		return ;
 	res = (unsigned char *)s;
 	count = 0;
