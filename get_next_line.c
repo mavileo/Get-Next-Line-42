@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/27 04:38:19 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 00:31:11 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		ft_rest(char *rest, char *line)
 	return (0);
 }
 
-int		ft_loop(int fd, char **line, char *rest)
+int		ft_loop(int fd, char **line, char *rest, int begin)
 {
 	char	*buff;
 	int		rd;
@@ -52,7 +52,8 @@ int		ft_loop(int fd, char **line, char *rest)
 		rd = read(fd, buff, BUFFER_SIZE);
 		if (rd < BUFFER_SIZE)
 			eof++;
-		*line = ft_strjoin(*line, buff, rest);
+		*line = ft_strjoin(*line, buff, rest, begin);
+		begin = 0;
 	}
 	ft_bzero(buff, ft_strlen(buff));
 	free(buff);
@@ -67,21 +68,20 @@ int		ft_loop(int fd, char **line, char *rest)
 int		get_next_line(int fd, char **line)
 {
 	static char	*rest;
+	int			begin;
 
+	begin = 1;
 	if (fd < 0 || BUFFER_SIZE < 1 || !line)
 		return (-1);
 	if (rest && *rest)
 	{
-		free(*line);
+		begin = 0;
 		if (!(*line = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 			return (-1);
 		if (ft_rest(rest, *line))
 			return (1);
 	}
-	else	
-		if (*line)
-			ft_bzero(*line, ft_strlen(*line));
 	if (!rest && !(rest = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	return (ft_loop(fd, line, rest));
+	return (ft_loop(fd, line, rest, begin));
 }

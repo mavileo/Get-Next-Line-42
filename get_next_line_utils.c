@@ -6,18 +6,18 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/27 04:39:40 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 00:35:53 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_strlen(const char *s)
+int		ft_strlen(char *s)
 {
 	int count;
 
 	count = 0;
-	if (s == NULL)
+	if (!s)
 		return (0);
 	while (s[count])
 		count++;
@@ -52,23 +52,25 @@ int		ft_search_nl(char *str)
 	return (0);
 }
 
-char	*ft_strjoin(char *s1, char *s2, char *rest)
+char	*ft_strjoin(char *s1, char *s2, char *rest, int begin)
 {
 	char	*res;
 	int		len;
 	int		count;
 
 	count = 0;
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	if (s1 && !begin)
+		len = ft_strlen(s1) + BUFFER_SIZE + 1;
+	else
+		len = BUFFER_SIZE + 1;
 	if (!(res = malloc(sizeof(char) * len)))
 		return (NULL);
 	len = 0;
-	if (s1)
+	if (s1 && !begin)
 	{
 		while (s1[count])
 			res[len++] = s1[count++];
-		if (count)
-			free(s1);
+		free(s1);
 	}
 	count = 0;
 	if (s2)

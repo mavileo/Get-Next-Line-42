@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:17 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/26 21:47:42 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 00:31:26 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <stdio.h>
 
 int		get_next_line(int fd, char **line);
-int		ft_strlen(const char *s);
+int		ft_strlen(char *s);
 void	ft_fill_rest(char *buff, char *rest);
 int		ft_search_nl(char *str);
-char	*ft_strjoin(char *s1, char *s2, char *rest);
+char	*ft_strjoin(char *s1, char *s2, char *rest, int begin);
 char	*ft_strdup(char *s, char *rest);
 void	ft_bzero(void *s, size_t n);
 

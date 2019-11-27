@@ -23,8 +23,10 @@ int main()
 	{
 		count++;
 		printf("%s\n", line);
+		free(line);
 	}
 	printf("%s\n", line);
+	free(line);
 }
 
 /* int main()
