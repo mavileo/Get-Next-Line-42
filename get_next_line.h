@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:17 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/26 17:00:34 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/26 21:47:42 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	ft_fill_rest(char *buff, char *rest);
 int		ft_search_nl(char *str);
 char	*ft_strjoin(char *s1, char *s2, char *rest);
 char	*ft_strdup(char *s, char *rest);
+void	ft_bzero(void *s, size_t n);
 
 #endif

@@ -6,25 +6,11 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/26 17:02:04 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/27 02:59:42 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*res;
-	size_t			count;
-
-	res = (unsigned char *)s;
-	count = 0;
-	while (count < n)
-	{
-		*res++ = 0;
-		count++;
-	}
-}
 
 int		ft_rest(char *rest, char *line)
 {
@@ -91,8 +77,6 @@ int		get_next_line(int fd, char **line)
 		if (ft_rest(rest, *line))
 			return (1);
 	}
-	else
-		ft_bzero(*line, ft_strlen(*line));
 	if (!rest && !(rest = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	return (ft_loop(fd, line, rest));
