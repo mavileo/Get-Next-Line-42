@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/27 02:59:42 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/27 03:50:46 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ int		ft_loop(int fd, char **line, char *rest)
 	ft_bzero(buff, ft_strlen(buff));
 	free(buff);
 	if (eof && !*rest)
+	{
 		free(rest);
-	if (eof && !*rest)
 		return (0);
+	}
 	return (1);
 }
 
