@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:50:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 20:37:16 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 23:26:55 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*ft_calloc(size_t nb, size_t size)
 	return (res);
 }
 
-int		ft_i(char *stock)
+int		ft_i(const char *stock)
 {
 	int count;
 
@@ -62,16 +62,21 @@ int		get_next_line(int fd, char **line)
 		stock = ft_calloc(1, 1);
 	while (!ft_strchr(stock, '\n') && (ret = read(fd, buffer, BUFFER_SIZE)))
 	{
+		if (ret == -1)
+			return (-1);
 		buffer[ret] = '\0';
-		stock = ft_strjoin_free(stock, buffer, 1);
+		if (!(stock = ft_strjoin_free(stock, buffer, 1)))
+			return (-1);
 	}
 	free(buffer);
 	i = ft_i(stock);
 	tmp = stock;
 	*line = ft_substr(stock, 0, i);
-	stock = ft_strdup(stock + i + 1);
-	free(tmp);
-	if (ret || ft_strlen(stock) || ft_strlen(*line))
-		return (1);
-	return (0);
+	if (stock[i] == '\n')
+		stock = ft_strdup(stock + i + 1);
+	else
+		stock = NULL;
+	if (tmp)
+		free(tmp);
+	return (((stock == NULL) && !ret && !ft_strlen(*line)) ? 0 : 1);
 }

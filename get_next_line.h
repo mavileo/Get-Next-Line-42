@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:17 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 20:18:14 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 20:41:02 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int		ft_search_nl(char *str);
 char	*ft_strjoin_free(char *s1, char *s2, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char const *s, int start, size_t len);
 
 #endif
