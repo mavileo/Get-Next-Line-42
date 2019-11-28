@@ -6,15 +6,15 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 01:35:33 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 20:16:14 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_strlen(char *s)
+int		ft_strlen(const char *s)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (!s)
@@ -24,76 +24,81 @@ int		ft_strlen(char *s)
 	return (count);
 }
 
-void	ft_fill_rest(char *buff, char *rest)
-{
-	int		c_rest;
-	int		count;
-
-	count = 0;
-	c_rest = 0;
-	while (buff[count] && buff[count] != '\n')
-		count++;
-	if (buff[count] == '\n')
-		count++;
-	while (buff[count])
-		rest[c_rest++] = buff[count++];
-	rest[c_rest] = 0;
-}
-
-int		ft_search_nl(char *str)
-{
-	int count;
-
-	count = 0;
-	while (str[count] != '\n' && str[count])
-		count++;
-	if (str[count] == '\n')
-		return (1);
-	return (0);
-}
-
-char	*ft_strjoin(char *s1, char *s2, char *rest, int begin)
+char	*ft_strjoin_free(char *s1, char *s2, int c)
 {
 	char	*res;
 	int		len;
 	int		count;
 
+	if (!s1 && !s2)
+		return (ft_strdup(""));
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
 	count = 0;
-	len = 0;
-	if (s1 && !begin)
-		len = ft_strlen(s1);
-	if (!(res = malloc(sizeof(char) * (BUFFER_SIZE + len + 1))))
+	if (!(res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
 		return (NULL);
 	len = 0;
-	if (s1 && !begin)
-	{
-		while (s1[count])
-			res[len++] = s1[count++];
-		if (count > 0)
-			free(s1);
-	}
+	while (s1[count])
+		res[len++] = s1[count++];
 	count = 0;
-	if (s2)
-		while (s2[count] && s2[count] != '\n')
-			res[len++] = s2[count++];
+	while (s2[count])
+		res[len++] = s2[count++];
 	res[len] = 0;
-	if (s2)
-		ft_fill_rest(s2, rest);
+	if (c == 1 || c == 3)
+		free(s1);
+	if (c == 2 || c == 3)
+		free(s2);
 	return (res);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	unsigned char	*res;
-	size_t			count;
-
-	if (!s || n < 1)
-		return ;
-	res = (unsigned char *)s;
-	count = 0;
-	while (count < n)
+	if (c)
 	{
-		*res++ = 0;
+		while (*s && *s != (char)c)
+			s++;
+		if (!(*s))
+			return (NULL);
+	}
+	else
+		while (*s != (char)c)
+			s++;
+	return ((char *)s);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*res;
+	size_t	count;
+
+	if (!s || len < 1 || len > 2147483647)
+		return (ft_strdup(""));
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	count = 0;
+	if (!(res = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (count < len)
+		res[count++] = s[start++];
+	res[count] = 0;
+	return (res);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	int		count;
+
+	count = 0;
+	if (!(res = malloc(sizeof(*s) * (ft_strlen(s) + 1))))
+		return (NULL);
+	while (s[count])
+	{
+		res[count] = s[count];
 		count++;
 	}
+	res[count] = 0;
+	return (res);
 }

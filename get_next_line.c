@@ -5,80 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 01:18:29 by mavileo          ###   ########.fr       */
+/*   Created: 2019/11/28 19:50:12 by mavileo           #+#    #+#             */
+/*   Updated: 2019/11/28 20:37:16 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_rest(char *rest, char *line)
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*res;
+	size_t			count;
+
+	res = (unsigned char *)s;
+	count = 0;
+	while (count < n)
+	{
+		*res++ = c;
+		count++;
+	}
+	return (s);
+}
+
+void	*ft_calloc(size_t nb, size_t size)
+{
+	unsigned char *res;
+
+	if (!(res = malloc(size * nb)))
+		return (NULL);
+	ft_memset(res, 0, nb * size);
+	return (res);
+}
+
+int		ft_i(char *stock)
 {
 	int count;
 
 	count = 0;
-	while (rest[count] && rest[count] != '\n')
-	{
-		line[count] = rest[count];
+	while (stock && stock[count] && stock[count] != '\n')
 		count++;
-	}
-	line[count] = 0;
-	if (rest[count] == '\n')
-	{
-		if (rest[count] == 0 || rest[count + 1] == 0)
-			ft_bzero(rest, ft_strlen(rest));
-		else
-			ft_fill_rest(rest, rest);
-		return (1);
-	}
-	ft_bzero(rest, ft_strlen(rest));
-	return (0);
-}
-
-int		ft_loop(int fd, char **line, char *rest, int begin)
-{
-	char	*buff;
-	int		eof;
-
-	eof = 0;
-	if (!(buff = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
-	buff[BUFFER_SIZE] = 0;
-	while (!ft_search_nl(buff) && !eof)
-	{
-		ft_bzero(buff, ft_strlen(buff));
-		if (read(fd, buff, BUFFER_SIZE) < BUFFER_SIZE)
-			eof++;
-		*line = ft_strjoin(*line, buff, rest, begin);
-		begin = 0;
-	}
-	ft_bzero(buff, ft_strlen(buff));
-	free(buff);
-	if (eof && !*rest)
-	{
-		free(rest);
-		return (0);
-	}
-	return (1);
+	return (count);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*rest;
-	int			begin;
+	static char	*stock = NULL;
+	int			ret;
+	int			i;
+	char		*tmp;
+	char		*buffer;
 
-	begin = 1;
-	if (fd < 0 || BUFFER_SIZE < 1 || !line)
+	if (fd < 0 || !line || !(buffer = (char *)malloc(sizeof(char) *
+	(BUFFER_SIZE + 1))))
 		return (-1);
-	if (rest && *rest)
+	if (!stock)
+		stock = ft_calloc(1, 1);
+	while (!ft_strchr(stock, '\n') && (ret = read(fd, buffer, BUFFER_SIZE)))
 	{
-		begin = 0;
-		if (!(*line = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-			return (-1);
-		if (ft_rest(rest, *line))
-			return (1);
+		buffer[ret] = '\0';
+		stock = ft_strjoin_free(stock, buffer, 1);
 	}
-	if (!rest && !(rest = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
-	return (ft_loop(fd, line, rest, begin));
+	free(buffer);
+	i = ft_i(stock);
+	tmp = stock;
+	*line = ft_substr(stock, 0, i);
+	stock = ft_strdup(stock + i + 1);
+	free(tmp);
+	if (ret || ft_strlen(stock) || ft_strlen(*line))
+		return (1);
+	return (0);
 }

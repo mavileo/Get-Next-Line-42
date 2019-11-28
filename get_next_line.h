@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:17 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 00:31:26 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 20:18:14 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@
 # include <string.h>
 # include <stdio.h>
 
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
+
 int		get_next_line(int fd, char **line);
-int		ft_strlen(char *s);
-void	ft_fill_rest(char *buff, char *rest);
+int		ft_strlen(const char *s);
 int		ft_search_nl(char *str);
-char	*ft_strjoin(char *s1, char *s2, char *rest, int begin);
-char	*ft_strdup(char *s, char *rest);
-void	ft_bzero(void *s, size_t n);
+char	*ft_strjoin_free(char *s1, char *s2, int c);
+char	*ft_strdup(const char *s);
+char	*ft_strchr(const char *s, int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
