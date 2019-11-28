@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 01:05:30 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 01:18:29 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int		get_next_line(int fd, char **line)
 {
 	static char	*rest;
 	int			begin;
-	int			rd;
 
 	begin = 1;
 	if (fd < 0 || BUFFER_SIZE < 1 || !line)
