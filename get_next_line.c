@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 20:25:32 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 00:31:11 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 01:05:30 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ int		ft_rest(char *rest, char *line)
 int		ft_loop(int fd, char **line, char *rest, int begin)
 {
 	char	*buff;
-	int		rd;
 	int		eof;
 
-	rd = 1;
 	eof = 0;
 	if (!(buff = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
@@ -49,8 +47,7 @@ int		ft_loop(int fd, char **line, char *rest, int begin)
 	while (!ft_search_nl(buff) && !eof)
 	{
 		ft_bzero(buff, ft_strlen(buff));
-		rd = read(fd, buff, BUFFER_SIZE);
-		if (rd < BUFFER_SIZE)
+		if (read(fd, buff, BUFFER_SIZE) < BUFFER_SIZE)
 			eof++;
 		*line = ft_strjoin(*line, buff, rest, begin);
 		begin = 0;
@@ -69,6 +66,7 @@ int		get_next_line(int fd, char **line)
 {
 	static char	*rest;
 	int			begin;
+	int			rd;
 
 	begin = 1;
 	if (fd < 0 || BUFFER_SIZE < 1 || !line)

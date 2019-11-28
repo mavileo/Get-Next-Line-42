@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 00:35:53 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/28 01:03:15 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ char	*ft_strjoin(char *s1, char *s2, char *rest, int begin)
 	int		count;
 
 	count = 0;
+	len = 0;
 	if (s1 && !begin)
-		len = ft_strlen(s1) + BUFFER_SIZE + 1;
-	else
-		len = BUFFER_SIZE + 1;
-	if (!(res = malloc(sizeof(char) * len)))
+		len = ft_strlen(s1);
+	if (!(res = malloc(sizeof(char) * (BUFFER_SIZE + len + 1))))
 		return (NULL);
 	len = 0;
 	if (s1 && !begin)
