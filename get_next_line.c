@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:50:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/29 04:52:16 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/29 06:51:02 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,20 @@ int		ft_len_line(const char *stock)
 	return (i);
 }
 
-char	*ft_loop(char *stock, int ret, int fd, char *buffer)
+int		ft_loop(char **stock, int fd, char *buffer)
 {
-	while (!ft_strchr(stock, '\n') && (ret = read(fd, buffer, BUFFER_SIZE)))
+	int rd;
+
+	rd = 1;
+	while (!ft_strchr(*stock, '\n') && (rd = read(fd, buffer, BUFFER_SIZE)))
 	{
-		if (ret == -1)
-			return (NULL);
-		buffer[ret] = '\0';
-		if (!(stock = ft_strjoin_free(stock, buffer, 1)))
-			return (NULL);
+		if (rd == -1)
+			return (-1);
+		buffer[rd] = '\0';
+		if (!(*stock = ft_strjoin_free(*stock, buffer, 1)))
+			return (-1);
 	}
-	return (stock);
+	return (rd);
 }
 
 int		get_next_line(int fd, char **line)
@@ -68,12 +71,12 @@ int		get_next_line(int fd, char **line)
 	char		*tmp;
 	char		*buffer;
 
-	if (fd < 0 || !line || !(buffer = (char *)malloc(sizeof(char) *
-	(BUFFER_SIZE + 1))))
+	if (fd < 0 || !line || BUFFER_SIZE < 1 ||
+	!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	if (!stock)
 		stock = ft_calloc(1, 1);
-	if ((stock = ft_loop(stock, ret, fd, buffer)) == NULL)
+	if ((ret = ft_loop(&stock, fd, buffer)) == -1)
 		return (-1);
 	free(buffer);
 	i = ft_len_line(stock);
@@ -85,5 +88,5 @@ int		get_next_line(int fd, char **line)
 		stock = NULL;
 	if (tmp)
 		free(tmp);
-	return (((stock == NULL) && !ret && !ft_strlen(*line)) ? 0 : 1);
+	return (((stock == NULL) && !ret) ? 0 : 1);
 }
