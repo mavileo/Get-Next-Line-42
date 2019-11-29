@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:50:12 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 23:26:55 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/29 04:52:16 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,27 @@ void	*ft_calloc(size_t nb, size_t size)
 	return (res);
 }
 
-int		ft_i(const char *stock)
+int		ft_len_line(const char *stock)
 {
-	int count;
+	int i;
 
-	count = 0;
-	while (stock && stock[count] && stock[count] != '\n')
-		count++;
-	return (count);
+	i = 0;
+	while (stock && stock[i] && stock[i] != '\n')
+		i++;
+	return (i);
+}
+
+char	*ft_loop(char *stock, int ret, int fd, char *buffer)
+{
+	while (!ft_strchr(stock, '\n') && (ret = read(fd, buffer, BUFFER_SIZE)))
+	{
+		if (ret == -1)
+			return (NULL);
+		buffer[ret] = '\0';
+		if (!(stock = ft_strjoin_free(stock, buffer, 1)))
+			return (NULL);
+	}
+	return (stock);
 }
 
 int		get_next_line(int fd, char **line)
@@ -60,16 +73,10 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	if (!stock)
 		stock = ft_calloc(1, 1);
-	while (!ft_strchr(stock, '\n') && (ret = read(fd, buffer, BUFFER_SIZE)))
-	{
-		if (ret == -1)
-			return (-1);
-		buffer[ret] = '\0';
-		if (!(stock = ft_strjoin_free(stock, buffer, 1)))
-			return (-1);
-	}
+	if ((stock = ft_loop(stock, ret, fd, buffer)) == NULL)
+		return (-1);
 	free(buffer);
-	i = ft_i(stock);
+	i = ft_len_line(stock);
 	tmp = stock;
 	*line = ft_substr(stock, 0, i);
 	if (stock[i] == '\n')

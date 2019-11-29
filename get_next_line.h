@@ -6,7 +6,7 @@
 /*   By: mavileo <mavileo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 22:00:17 by mavileo           #+#    #+#             */
-/*   Updated: 2019/11/28 20:41:02 by mavileo          ###   ########.fr       */
+/*   Updated: 2019/11/29 04:54:27 by mavileo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <string.h>
 # include <stdio.h>
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 42
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 int		get_next_line(int fd, char **line);
 int		ft_strlen(const char *s);
